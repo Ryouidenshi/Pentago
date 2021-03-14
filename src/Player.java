@@ -1,13 +1,13 @@
-import java.awt.*;
-
 public class Player {
 
     private int number;
     private Color color;
+    private String name;
 
-    public Player(Color color, int number) {
+    public Player(Color color, int number, String name) {
         setColor(color);
         setNumber(number);
+        setName(name);
     }
 
     public void setColor(Color color) {
@@ -24,5 +24,13 @@ public class Player {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

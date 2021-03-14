@@ -1,16 +1,10 @@
 public class ChildBoard {
 
-    enum Dir {
-        Right,
-        Left
-    }
-
     private final Matrix matrix = new Matrix(3, 3);
     private Ball[][] Balls = matrix.matrixArray();
     private int number; //1-4
 
-    public ChildBoard(Ball[][] balls, int number) {
-        setBalls(balls);
+    public ChildBoard(int number) {
         setNumber(number);
     }
 
@@ -30,16 +24,23 @@ public class ChildBoard {
         Balls = balls;
     }
 
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
     public void addBall(Ball ball) {
-        if (Balls[ball.getColumn()][ball.getRow()] == null) {
+        if (Balls[ball.getColumn()][ball.getRow()].getColor() == Color.None) {
             Balls[ball.getColumn()][ball.getRow()] = ball;
+        }
+        else {
+           System.out.println("Эта ячейка уже занята, выберите другую");
         }
     }
 
     public void flip(Dir dir) {
         Ball[][] balls = new Matrix(matrix.getRows(), matrix.getColumns()).matrixArray();
-        for (int i = 0; i < matrix.getColumns(); i++) {
-            for (int j = 0; i < matrix.getRows(); j++) {
+        for (int i = 0; i < matrix.getColumns()-1; i++) {
+            for (int j = 0; j < matrix.getRows()-1; j++) {
                 if (Balls[i][j] != null) {
 
                     if (i == 0 && j == 0 && dir == Dir.Right) {

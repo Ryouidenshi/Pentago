@@ -1,19 +1,9 @@
-public class Painter {
+public class PainterChild {
 
-    private Board board;
-
-    public Painter(Board board) {
-        setBoard(board);
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void Draw() {
-        Ball[][] balls = board.getBalls();
-        for (int i = 0; i < board.getMatrix().getColumns(); i++) {
-            for (int j = 0; j < board.getMatrix().getRows(); j++) {
+    public void Draw(ChildBoard childBoard) {
+        Ball[][] balls = childBoard.getBalls();
+        for (int i = 0; i < childBoard.getMatrix().getColumns(); i++) {
+            for (int j = 0; j < childBoard.getMatrix().getRows(); j++) {
                 if(balls[i][j].getColor()== Color.None) {
                     System.out.print('☐' + " ");
                 }
@@ -26,7 +16,7 @@ public class Painter {
                     System.out.print('○' + " ");
                 }
 
-                if (j + 1 == board.getMatrix().getRows()) {
+                if (j + 1 == childBoard.getMatrix().getRows()) {
                     System.out.println();
                 }
             }

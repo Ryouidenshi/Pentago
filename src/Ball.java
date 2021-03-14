@@ -1,10 +1,5 @@
 public class Ball {
 
-    public enum Color {
-        Black,
-        White
-    }
-
     private Color color;
     private int column;
     private int row;

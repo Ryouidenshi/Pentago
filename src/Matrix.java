@@ -31,7 +31,7 @@ public class Matrix {
         Ball[][] arr = (Ball[][]) Array.newInstance(Ball.class, rows, columns);
         for (var i = 0; i < columns; i++) {
             for (var j = 0; j < rows; j++) {
-                arr[i][j] = null;
+                arr[i][j] = new Ball(Color.None, columns, rows);
             }
         }
         return arr;
