@@ -1,9 +1,8 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         System.out.print("Введите Имя первого игрока, он будет играть за белых : ");
         Scanner in = new Scanner(System.in);
         String firstName = in.nextLine();
@@ -11,87 +10,126 @@ public class Main {
         String secondName = in.nextLine();
 
         Board board = new Board();
-        ChildBoard firstChildBoard = new ChildBoard(1);
-        ChildBoard secondChildBoard = new ChildBoard(2);
-        ChildBoard thirdChildBoard = new ChildBoard(3);
-        ChildBoard fourthChildBoard = new ChildBoard(4);
+        ChildBoard firstChildBoard = new ChildBoard();
+        ChildBoard secondChildBoard = new ChildBoard();
+        ChildBoard thirdChildBoard = new ChildBoard();
+        ChildBoard fourthChildBoard = new ChildBoard();
 
-        Painter painter = new Painter(board);
-        PainterChild painterChild = new PainterChild();
-        painter.Draw();
+        Player firstPlayer = new Player(Color.White, firstName, true);
+        Player secondPlayer = new Player(Color.Black, secondName, false);
 
-        Player firstPlayer = new Player(Color.White, 1, firstName);
-        Player secondPlayer = new Player(Color.Black, 2, secondName);
+        Painter painter = new Painter();
+        painter.Draw(board);
 
-        int indexPlayer = 1;
-
-        while(!board.FindFirstIterationForCheck(firstPlayer.getColor())
+        while (!board.FindFirstIterationForCheck(firstPlayer.getColor())
                 || !board.FindFirstIterationForCheck(secondPlayer.getColor())) {
-            if(indexPlayer==1) {
-                System.out.println("Первый игрок, выберите одно из четырёх полей");
-                int currentChildBoard = in.nextInt();
-                if(currentChildBoard==1){
-                    painterChild.Draw(firstChildBoard);
-                    System.out.println("В какой столбик поставить шарик?");
-                    Integer column = in.nextInt();
-                    System.out.println("В какую строку поставить шарик?");
-                    Integer row = in.nextInt();
-                    firstChildBoard.addBall(new Ball(Color.White, column-1, row-1));
-                    painterChild.Draw(firstChildBoard);
-                    System.out.println("В какую сторону повернуть поле? (1-влево, 2-вправо)");
-                    int dirNumber = in.nextInt();
-                    if (dirNumber==1) {
-                        firstChildBoard.flip(Dir.Left);
-                    }
-                    else if (dirNumber==2) {
-                        firstChildBoard.flip(Dir.Right);
-                    }
-                    painterChild.Draw(firstChildBoard);
-                    board=addBallsInBoard(board, firstChildBoard);
-                    indexPlayer=2;
-                    painter.Draw();
+            if (firstPlayer.getTurn()) {
+                DeterminePlayer(firstPlayer, secondPlayer,
+                        firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
                 }
-                else if(indexPlayer==2) {
-                    indexPlayer=1;
-                }
+            else if (secondPlayer.getTurn()) {
+                DeterminePlayer(secondPlayer, firstPlayer,
+                        firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
             }
         }
     }
 
-    public static Board addBallsInBoard(Board board, ChildBoard childBoard) {
-        if(childBoard.getNumber()==1) {
-            for(int i=0 ; i < 3;i++) {
-                for (int j=0; j<3; j++){
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==0 && j==0) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==0 && j==1) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==0 && j==2) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==1 && j==0) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==1 && j==1) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==1 && j==2) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==2 && j==0) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==2 && j==1) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
-                    if(childBoard.getBalls()[i][j].getColor() != Color.None && i==2 && j==2) {
-                        board.addBall(new Ball(childBoard.getBalls()[i][j].getColor(),i,j));
-                    }
+    public static void DeterminePlayer(Player currentPlayer, Player otherPlayer,
+                                       ChildBoard firstChildBoard,
+                                       ChildBoard secondChildBoard,
+                                       ChildBoard thirdChildBoard,
+                                       ChildBoard fourthChildBoard) throws Exception {
+        Scanner in = new Scanner(System.in);
+        System.out.println(currentPlayer.getName() + ", выберите одно из четырёх полей");
+        int currentChildBoard = in.nextInt();
+        if(currentChildBoard>4 || currentChildBoard<1)
+            throw new Exception("Такого поля нет!");
+        switch (currentChildBoard) {
+            case 1 -> MakeMove(firstChildBoard, currentPlayer, otherPlayer,
+                    firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
+            case 2 -> MakeMove(secondChildBoard, currentPlayer, otherPlayer,
+                    firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
+            case 3 -> MakeMove(thirdChildBoard, currentPlayer, otherPlayer,
+                    firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
+            case 4 -> MakeMove(fourthChildBoard, currentPlayer, otherPlayer,
+                    firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
+            default -> throw new Exception("Not Exist!");
+        }
+    }
+
+    public static void MakeMove(ChildBoard childBoard,
+                                Player currentPlayer, Player otherPlayer,
+                                ChildBoard firstChildBoard,
+                                ChildBoard secondChildBoard,
+                                ChildBoard thirdChildBoard,
+                                ChildBoard fourthChildBoard) throws Exception {
+        Scanner in = new Scanner(System.in);
+        Painter painter = new Painter();
+        painter.Draw(childBoard);
+        System.out.println("В какой столбик поставить шарик?");
+        int column = in.nextInt();
+        System.out.println("В какую строку поставить шарик?");
+        int row = in.nextInt();
+        childBoard.addBall(new Ball(currentPlayer.getColor(), column - 1, row - 1));
+        painter.Draw(childBoard);
+        System.out.println("В какую сторону повернуть поле? (1-влево, 2-вправо)");
+        int dirNumber = in.nextInt();
+        if (dirNumber == 1) {
+            childBoard.flip(Dir.Left);
+        } else if (dirNumber == 2) {
+            childBoard.flip(Dir.Right);
+        }
+        painter.Draw(childBoard);
+        currentPlayer.setTurn(false);
+        otherPlayer.setTurn(true);
+        Board board = addBallsInBoard(firstChildBoard, secondChildBoard,
+                thirdChildBoard, fourthChildBoard);
+        painter.Draw(board);
+    }
+
+
+    public static Board addBallsInBoard(ChildBoard board1, ChildBoard board2,
+                                        ChildBoard board3, ChildBoard board4) {
+        Board board = new Board();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (i == 0 && j == 0) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 0 && j == 1) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 0 && j == 2) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 1 && j == 0) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 1 && j == 1) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 1 && j == 2) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 2 && j == 0) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 2 && j == 1) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
+                }
+                if (i == 2 && j == 2) {
+                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
                 }
             }
         }
         return board;
+    }
+
+    public static void AddBallsFromChildBoard(Board board, ChildBoard board1, ChildBoard board2,
+                                              ChildBoard board3, ChildBoard board4, int i, int j) {
+        board.addBall(new Ball(board1.getBalls()[i][j].getColor(), i, j));
+        board.addBall(new Ball(board2.getBalls()[i][j].getColor(), i, j + 3));
+        board.addBall(new Ball(board3.getBalls()[i][j].getColor(), i + 3, j));
+        board.addBall(new Ball(board4.getBalls()[i][j].getColor(), i + 3, j + 3));
     }
 }

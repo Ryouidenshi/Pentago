@@ -1,13 +1,21 @@
 public class Player {
 
-    private int number;
     private Color color;
     private String name;
+    private Boolean turn;
 
-    public Player(Color color, int number, String name) {
+    public Player(Color color, String name, Boolean turn) {
         setColor(color);
-        setNumber(number);
         setName(name);
+        setTurn(turn);
+    }
+
+    public Boolean getTurn() {
+        return turn;
+    }
+
+    public void setTurn(Boolean turn) {
+        this.turn = turn;
     }
 
     public void setColor(Color color) {
@@ -16,14 +24,6 @@ public class Player {
 
     public Color getColor() {
         return color;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public String getName() {

@@ -1,14 +1,10 @@
 public class Board {
 
     private final Matrix matrix = new Matrix(6, 6);
-    private Ball[][] Balls = matrix.matrixArray();
+    private final Ball[][] Balls = matrix.matrixArray();
 
     public Ball[][] getBalls() {
         return Balls;
-    }
-
-    public void setBalls(Ball[][] balls) {
-        Balls = balls;
     }
 
     public Matrix getMatrix() {
@@ -26,13 +22,13 @@ public class Board {
 
     public Boolean FindFirstIterationForCheck(Color color) {
         Boolean result = false;
-        for (var i = 0; i < matrix.getColumns(); i++) {
-            for (var j = 0; j < matrix.getRows(); j++) {
-                if (Balls[i][j] != null && Balls[i][j].getColor() == color)
-                    result = CheckForWin(i, j, 1, color);
-            }
-        }
-        return result;
+        //for (var i = 0; i < matrix.getColumns(); i++) {
+            //for (var j = 0; j < matrix.getRows()-1; j++) {
+                //if (Balls[i][j] != null && Balls[i][j].getColor() == color)
+                    //result = CheckForWin(i, j, 1, color);
+            //}
+        //}
+        return false;
     }
 
     public Boolean CheckForWin(int y, int x, int count, Color color) {

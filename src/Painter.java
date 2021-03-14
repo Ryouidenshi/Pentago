@@ -1,28 +1,20 @@
 public class Painter {
 
-    private Board board;
-
-    public Painter(Board board) {
-        setBoard(board);
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void Draw() {
+    public void Draw(Board board) {
+        Cleaner cleaner = new Cleaner();
         Ball[][] balls = board.getBalls();
+        cleaner.Clear(1);
         for (int i = 0; i < board.getMatrix().getColumns(); i++) {
             for (int j = 0; j < board.getMatrix().getRows(); j++) {
-                if(balls[i][j].getColor()== Color.None) {
-                    System.out.print('☐' + " ");
+                if (balls[i][j].getColor() == Color.None) {
+                    System.out.print('·' + " ");
                 }
 
-                if(balls[i][j].getColor()== Color.Black) {
+                if (balls[i][j].getColor() == Color.Black) {
                     System.out.print('●' + " ");
                 }
 
-                if(balls[i][j].getColor()== Color.White) {
+                if (balls[i][j].getColor() == Color.White) {
                     System.out.print('○' + " ");
                 }
 
@@ -31,5 +23,31 @@ public class Painter {
                 }
             }
         }
+        cleaner.Clear(0);
+    }
+    public void Draw(ChildBoard childBoard) {
+        Cleaner cleaner = new Cleaner();
+        Ball[][] balls = childBoard.getBalls();
+        cleaner.Clear(1);
+        for (int i = 0; i < childBoard.getMatrix().getColumns(); i++) {
+            for (int j = 0; j < childBoard.getMatrix().getRows(); j++) {
+                if (balls[i][j].getColor() == Color.None) {
+                    System.out.print('·' + " ");
+                }
+
+                if (balls[i][j].getColor() == Color.Black) {
+                    System.out.print('●' + " ");
+                }
+
+                if (balls[i][j].getColor() == Color.White) {
+                    System.out.print('○' + " ");
+                }
+
+                if (j + 1 == childBoard.getMatrix().getRows()) {
+                    System.out.println();
+                }
+            }
+        }
+        cleaner.Clear(0);
     }
 }
