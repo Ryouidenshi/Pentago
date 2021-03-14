@@ -93,33 +93,7 @@ public class Main {
         Board board = new Board();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (i == 0 && j == 0) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 0 && j == 1) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 0 && j == 2) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 1 && j == 0) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 1 && j == 1) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 1 && j == 2) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 2 && j == 0) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 2 && j == 1) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
-                if (i == 2 && j == 2) {
-                    AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
-                }
+                AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
             }
         }
         return board;
