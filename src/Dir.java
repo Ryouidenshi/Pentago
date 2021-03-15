@@ -1,4 +1,6 @@
 enum Dir {
     Right,
-    Left
+    Left,
+    Up,
+    Down
 }
