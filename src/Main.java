@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static Ball[][] balls;
+    private static Ball[][] balls;
 
     public static void main(String[] args) throws Exception {
         System.out.print("Введите Имя первого игрока, он будет играть за белых : ");
@@ -30,22 +30,20 @@ public class Main {
             if (firstPlayer.getTurn()) {
                 DeterminePlayer(firstPlayer, secondPlayer,
                         firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
-                }
-            else if (secondPlayer.getTurn()) {
+            } else if (secondPlayer.getTurn()) {
                 DeterminePlayer(secondPlayer, firstPlayer,
                         firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
             }
         }
-        End end = null;
-        if(board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)) {
-            end = new End(firstPlayer);
+        End end;
+        if (board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)) {
+            end = new End(EndingSituation.FirstPlayer);
+        } else if (board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)) {
+            end = new End(EndingSituation.SecondPlayer);
+        } else {
+            end = new End(EndingSituation.Drawn);
         }
-        else if (board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)){
-            end = new End(secondPlayer);
-        }
-        if(end!=null) {
-            end.DrawEndWithWin();
-        }
+        end.DrawEndWithWin(firstPlayer, secondPlayer);
     }
 
     public static void DeterminePlayer(Player currentPlayer, Player otherPlayer,
@@ -54,10 +52,16 @@ public class Main {
                                        ChildBoard thirdChildBoard,
                                        ChildBoard fourthChildBoard) throws Exception {
         Scanner in = new Scanner(System.in);
+
         System.out.println(currentPlayer.getName() + ", выберите одно из четырёх полей");
         int currentChildBoard = in.nextInt();
-        if(currentChildBoard>4 || currentChildBoard<1)
-            throw new Exception("Такого поля нет!");
+
+        while (currentChildBoard > 4 || currentChildBoard < 1) {
+            System.out.println(currentPlayer.getName() + "Такого поля не существует, выберите другое!");
+            System.out.println(currentPlayer.getName() + ", выберите одно из четырёх полей");
+            currentChildBoard = in.nextInt();
+        }
+
         switch (currentChildBoard) {
             case 1 -> MakeMove(firstChildBoard, currentPlayer, otherPlayer,
                     firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
@@ -76,29 +80,51 @@ public class Main {
                                 ChildBoard firstChildBoard,
                                 ChildBoard secondChildBoard,
                                 ChildBoard thirdChildBoard,
-                                ChildBoard fourthChildBoard) throws Exception {
+                                ChildBoard fourthChildBoard) {
         Scanner in = new Scanner(System.in);
         Painter painter = new Painter();
         painter.Draw(childBoard);
+
         System.out.println("В какой столбик поставить шарик?");
         int column = in.nextInt();
         System.out.println("В какую строку поставить шарик?");
         int row = in.nextInt();
+
+        while (column > 3 || row > 3
+                || childBoard.getBalls()[column - 1][row - 1].getColor() != Color.None) {
+            System.out.println(currentPlayer.getName() + " сюда нельзя поставить, выберете другое место!");
+            System.out.println("В какой столбик поставить шарик?");
+            column = in.nextInt();
+            System.out.println("В какую строку поставить шарик?");
+            row = in.nextInt();
+        }
+
         childBoard.addBall(new Ball(currentPlayer.getColor(), column - 1, row - 1));
         painter.Draw(childBoard);
-        System.out.println("В какую сторону повернуть поле? (1-влево, 2-вправо)");
-        int dirNumber = in.nextInt();
-        if (dirNumber == 1) {
-            childBoard.flip(Dir.Left);
-        } else if (dirNumber == 2) {
-            childBoard.flip(Dir.Right);
-        }
-        painter.Draw(childBoard);
-        currentPlayer.setTurn(false);
-        otherPlayer.setTurn(true);
+
         Board board = addBallsInBoard(firstChildBoard, secondChildBoard,
                 thirdChildBoard, fourthChildBoard);
-        painter.Draw(board);
+        if (!board.FindFirstIterationForCheck(currentPlayer.getColor(), balls)) {
+            System.out.println("В какую сторону повернуть поле? (1-влево, 2-вправо)");
+            int dirNumber = in.nextInt();
+
+            while (dirNumber > 2 || dirNumber < 1) {
+                System.out.println("Такого направления нет, выберите другой!");
+                System.out.println(currentPlayer.getName() + "В какую сторону повернуть поле? (1-влево, 2-вправо)");
+                dirNumber = in.nextInt();
+            }
+
+            if (dirNumber == 1) {
+                childBoard.flip(Dir.Left);
+            } else {
+                childBoard.flip(Dir.Right);
+            }
+            currentPlayer.setTurn(false);
+            otherPlayer.setTurn(true);
+            board = addBallsInBoard(firstChildBoard, secondChildBoard,
+                    thirdChildBoard, fourthChildBoard);
+            painter.Draw(board);
+        }
     }
 
 
@@ -110,7 +136,7 @@ public class Main {
                 AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
             }
         }
-        balls=board.getBalls();
+        balls = board.getBalls();
         return board;
     }
 

@@ -1,23 +1,33 @@
 public class End {
-    private Player winner;
 
-    public End(Player winner) {
-        setWinner(winner);
+    private EndingSituation endingSituation;
+
+    private final Cleaner cleaner = new Cleaner();
+
+    public End(EndingSituation endingSituation) {
+        setEndingSituation(endingSituation);
     }
 
-    public void setWinner(Player winner) {
-        this.winner = winner;
+    public void setEndingSituation(EndingSituation endingSituation) {
+        this.endingSituation = endingSituation;
     }
 
-    public void DrawEndWithWin() {
-        Cleaner cleaner = new Cleaner();
-        cleaner.Clear(10);
-        System.out.println(winner.getName() + "ПОБЕДИЛ!!!");
+    public void DrawEndWithWin(Player firstPlayer, Player secondPlayer) {
+        switch (endingSituation) {
+            case FirstPlayer -> {
+                cleaner.Clear(10);
+                System.out.println(firstPlayer.getName() + " ПОБЕДИЛ!!!");
+            }
+            case SecondPlayer -> {
+                cleaner.Clear(10);
+                System.out.println(secondPlayer.getName() + " ПОБЕДИЛ!!!");
+            }
+            case Drawn -> {
+                cleaner.Clear(10);
+                System.out.println("НИЧЬЯ!");
+            }
+        }
     }
 
-    public void DrawDrawn() {
-        Cleaner cleaner = new Cleaner();
-        cleaner.Clear(10);
-        System.out.println("Никто не выиграл :(");
-    }
+
 }

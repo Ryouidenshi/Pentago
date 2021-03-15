@@ -3,7 +3,7 @@ public class Painter {
     public void Draw(Board board) {
         Cleaner cleaner = new Cleaner();
         Ball[][] balls = board.getBalls();
-        cleaner.Clear(1);
+        cleaner.Clear(0);
         for (int i = 0; i < board.getMatrix().getColumns(); i++) {
             for (int j = 0; j < board.getMatrix().getRows(); j++) {
                 if (balls[i][j].getColor() == Color.None) {
@@ -25,10 +25,11 @@ public class Painter {
         }
         cleaner.Clear(0);
     }
+
     public void Draw(ChildBoard childBoard) {
         Cleaner cleaner = new Cleaner();
         Ball[][] balls = childBoard.getBalls();
-        cleaner.Clear(1);
+        cleaner.Clear(0);
         for (int i = 0; i < childBoard.getMatrix().getColumns(); i++) {
             for (int j = 0; j < childBoard.getMatrix().getRows(); j++) {
                 if (balls[i][j].getColor() == Color.None) {
