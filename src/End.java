@@ -17,14 +17,17 @@ public class End {
             case FirstPlayer -> {
                 cleaner.Clear(10);
                 System.out.println(firstPlayer.getName() + " ПОБЕДИЛ!!!");
+                System.out.println("-----------------------------");
             }
             case SecondPlayer -> {
                 cleaner.Clear(10);
                 System.out.println(secondPlayer.getName() + " ПОБЕДИЛ!!!");
+                System.out.println("-----------------------------");
             }
             case Drawn -> {
                 cleaner.Clear(10);
                 System.out.println("НИЧЬЯ!");
+                System.out.println("-----------------------------");
             }
         }
     }

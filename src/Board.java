@@ -21,10 +21,13 @@ public class Board {
             for (var j = 0; j < matrix.getRows(); j++) {
                 if (balls[i][j].getColor() == color) {
                     result = CheckForWin(balls, i, j, 1, color);
+                    if(result) {
+                        return true;
+                    }
                 }
             }
         }
-        return result;
+        return false;
     }
 
     public Boolean CheckForWin(Ball[][] balls, int y, int x, int count, Color color) {
@@ -47,20 +50,16 @@ public class Board {
     public int CheckForWin(Ball[][] balls, int y, int x, int count, Color color, Dir dir) {
 
         if (x < 5 && balls[y][x + 1].getColor() == color && dir == Dir.Right) {
-            count++;
-            CheckForWin(balls, y, x + 1, count, color, Dir.Right);
+            count = CheckForWin(balls, y, x + 1, count + 1, color, Dir.Right);
         }
         if (x > 0 && balls[y][x - 1].getColor() == color && dir == Dir.Left) {
-            count++;
-            CheckForWin(balls, y, x - 1, count, color, Dir.Left);
+            count = CheckForWin(balls, y, x - 1, count + 1, color, Dir.Left);
         }
         if (y < 5 && balls[y + 1][x].getColor() == color && dir == Dir.Up) {
-            count++;
-            CheckForWin(balls, y + 1, x, count, color, Dir.Up);
+            count = CheckForWin(balls, y + 1, x, count + 1, color, Dir.Up);
         }
         if (y > 0 && balls[y - 1][x].getColor() == color && dir == Dir.Down) {
-            count++;
-            CheckForWin(balls, y - 1, x, count, color, Dir.Down);
+            count = CheckForWin(balls, y - 1, x, count + 1, color, Dir.Down);
         }
         return count;
     }

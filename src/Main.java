@@ -26,7 +26,7 @@ public class Main {
         painter.Draw(board);
 
         while (!board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)
-                || !board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)) {
+                && !board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)) {
             if (firstPlayer.getTurn()) {
                 DeterminePlayer(firstPlayer, secondPlayer,
                         firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
