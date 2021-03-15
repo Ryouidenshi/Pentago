@@ -43,13 +43,13 @@ public class Board {
         if (Balls[y][x + 1].getColor() == color) {
             CheckForWin(balls, y, x + 1, count + 1, color);
         }
-        if (Balls[y][x + 1].getColor() == color) {
+        if (Balls[y][x - 1].getColor() == color) {
             CheckForWin(balls, y, x - 1, count + 1, color);
         }
-        if (Balls[y][x + 1].getColor() == color) {
+        if (Balls[y+1][x].getColor() == color) {
             CheckForWin(balls, y + 1, x, count + 1, color);
         }
-        if (Balls[y][x + 1].getColor() == color) {
+        if (Balls[y-1][x + 1].getColor() == color) {
             CheckForWin(balls, y - 1, x, count + 1, color);
         }
         return count >= 5;

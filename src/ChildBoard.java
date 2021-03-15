@@ -72,7 +72,7 @@ public class ChildBoard {
                     }
 
                     if (i == 0 && j == 2 && dir == Dir.Left) {
-                        balls[i][j - 2] = Balls[i][j];
+                        balls[i+2][j] = Balls[i][j];
                     }
 
                     if (i == 1 && j == 0 && dir == Dir.Left) {
