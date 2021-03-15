@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class ChildBoard {
 
     private final Matrix matrix = new Matrix(3, 3);
@@ -17,9 +19,10 @@ public class ChildBoard {
             Balls[ball.getColumn()][ball.getRow()] = ball;
         }
         else {
-           throw new Exception("Поле уже занято!");
+            throw new Exception("Поле уже занято!");
         }
     }
+
 
     public void flip(Dir dir) {
         Ball[][] balls = new Matrix(matrix.getRows(), matrix.getColumns()).matrixArray();

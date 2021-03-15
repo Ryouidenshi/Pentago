@@ -2,10 +2,10 @@ public class End {
     private Player winner;
 
     public End(Player winner) {
-        setWinnde(winner);
+        setWinner(winner);
     }
 
-    public void setWinnde(Player winner) {
+    public void setWinner(Player winner) {
         this.winner = winner;
     }
 
