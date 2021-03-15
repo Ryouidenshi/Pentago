@@ -40,10 +40,12 @@ public class Main {
         if(board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)) {
             end = new End(firstPlayer);
         }
-        else {
+        else if (board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)){
             end = new End(secondPlayer);
         }
-        end.DrawEndWithWin();
+        if(end!=null) {
+            end.DrawEndWithWin();
+        }
     }
 
     public static void DeterminePlayer(Player currentPlayer, Player otherPlayer,
