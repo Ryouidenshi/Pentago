@@ -2,5 +2,9 @@ enum Dir {
     Right,
     Left,
     Up,
-    Down
+    Down,
+    LeftUpDiagonal,
+    RightUpDiagonal,
+    RightDownDiagonal,
+    LeftDownDiagonal
 }

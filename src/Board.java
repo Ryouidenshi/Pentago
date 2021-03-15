@@ -16,12 +16,12 @@ public class Board {
     }
 
     public Boolean FindFirstIterationForCheck(Color color, Ball[][] balls) {
-        Boolean result = false;
+        Boolean result;
         for (var i = 0; i < matrix.getColumns(); i++) {
             for (var j = 0; j < matrix.getRows(); j++) {
                 if (balls[i][j].getColor() == color) {
                     result = CheckForWin(balls, i, j, 1, color);
-                    if(result) {
+                    if (result) {
                         return true;
                     }
                 }
@@ -44,6 +44,18 @@ public class Board {
         if (count < 5 && y > 0 && balls[y - 1][x].getColor() == color) {
             count = CheckForWin(balls, y - 1, x, count + 1, color, Dir.Down);
         }
+        if (count < 5 && y > 0 && x > 0 && x < 5 && y < 5 && balls[y - 1][x + 1].getColor() == color) {
+            count = CheckForWin(balls, y - 1, x + 1, count + 1, color, Dir.RightDownDiagonal);
+        }
+        if (count < 5 && y > 0 && x > 0 && x < 5 && y < 5 && balls[y - 1][x - 1].getColor() == color) {
+            count = CheckForWin(balls, y - 1, x - 1, count + 1, color, Dir.LeftDownDiagonal);
+        }
+        if (count < 5 && y > 0 && x > 0 && x < 5 && y < 5 && balls[y + 1][x - 1].getColor() == color) {
+            count = CheckForWin(balls, y + 1, x - 1, count + 1, color, Dir.LeftUpDiagonal);
+        }
+        if (count < 5 && y > 0 && x > 0 && x < 5 && y < 5 && balls[y + 1][x + 1].getColor() == color) {
+            count = CheckForWin(balls, y + 1, x + 1, count + 1, color, Dir.RightUpDiagonal);
+        }
         return count >= 5;
     }
 
@@ -60,6 +72,18 @@ public class Board {
         }
         if (y > 0 && balls[y - 1][x].getColor() == color && dir == Dir.Down) {
             count = CheckForWin(balls, y - 1, x, count + 1, color, Dir.Down);
+        }
+        if (y > 0 && x > 0 && x < 5 && y < 5 && balls[y - 1][x + 1].getColor() == color) {
+            count = CheckForWin(balls, y - 1, x + 1, count + 1, color, Dir.RightDownDiagonal);
+        }
+        if (y > 0 && x > 0 && x < 5 && y < 5 && balls[y - 1][x - 1].getColor() == color) {
+            count = CheckForWin(balls, y - 1, x - 1, count + 1, color, Dir.LeftDownDiagonal);
+        }
+        if (y > 0 && x > 0 && x < 5 && y < 5 && balls[y + 1][x - 1].getColor() == color) {
+            count = CheckForWin(balls, y + 1, x - 1, count + 1, color, Dir.LeftUpDiagonal);
+        }
+        if (y > 0 && x > 0 && x < 5 && y < 5 && balls[y + 1][x + 1].getColor() == color) {
+            count = CheckForWin(balls, y + 1, x + 1, count + 1, color, Dir.RightUpDiagonal);
         }
         return count;
     }
