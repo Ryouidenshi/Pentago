@@ -36,7 +36,7 @@ public class ChildBoard {
                     }
 
                     if (i == 0 && j == 2 && dir == Dir.Right) {
-                        balls[i][j - 2] = Balls[i][j];
+                        balls[i+1][j] = Balls[i][j];
                     }
 
                     if (i == 1 &&  j==0 && dir == Dir.Right) {
@@ -64,11 +64,11 @@ public class ChildBoard {
                     }
 
                     if (i == 0 && j == 0 && dir == Dir.Left) {
-                        balls[i + 2][j] = Balls[i][j];
+                        balls[i+2][j] = Balls[i][j];
                     }
 
                     if (i == 0 && j == 1 && dir == Dir.Left) {
-                        balls[j][i] = Balls[i][j];
+                        balls[i+1][j-1] = Balls[i][j];
                     }
 
                     if (i == 0 && j == 2 && dir == Dir.Left) {
@@ -87,7 +87,7 @@ public class ChildBoard {
                         balls[i - 1][j - 1] = Balls[i][j];
                     }
                     if (i == 2 && j == 0 && dir == Dir.Left) {
-                        balls[i - 2][j] = Balls[i][j];
+                        balls[i][j+2] = Balls[i][j];
                     }
 
                     if (i == 2 && j == 1 && dir == Dir.Left) {

@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static Ball[][] balls;
+
     public static void main(String[] args) throws Exception {
         System.out.print("Введите Имя первого игрока, он будет играть за белых : ");
         Scanner in = new Scanner(System.in);
@@ -10,6 +12,8 @@ public class Main {
         String secondName = in.nextLine();
 
         Board board = new Board();
+        Matrix matrix = new Matrix(board.getMatrix().getRows(), board.getMatrix().getColumns());
+        balls = matrix.matrixArray();
         ChildBoard firstChildBoard = new ChildBoard();
         ChildBoard secondChildBoard = new ChildBoard();
         ChildBoard thirdChildBoard = new ChildBoard();
@@ -21,8 +25,8 @@ public class Main {
         Painter painter = new Painter();
         painter.Draw(board);
 
-        while (!board.FindFirstIterationForCheck(firstPlayer.getColor())
-                || !board.FindFirstIterationForCheck(secondPlayer.getColor())) {
+        while (!board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)
+                || !board.FindFirstIterationForCheck(secondPlayer.getColor(), balls)) {
             if (firstPlayer.getTurn()) {
                 DeterminePlayer(firstPlayer, secondPlayer,
                         firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
@@ -32,6 +36,14 @@ public class Main {
                         firstChildBoard, secondChildBoard, thirdChildBoard, fourthChildBoard);
             }
         }
+        End end = null;
+        if(board.FindFirstIterationForCheck(firstPlayer.getColor(), balls)) {
+            end = new End(firstPlayer);
+        }
+        else {
+            end = new End(secondPlayer);
+        }
+        end.DrawEndWithWin();
     }
 
     public static void DeterminePlayer(Player currentPlayer, Player otherPlayer,
@@ -96,6 +108,7 @@ public class Main {
                 AddBallsFromChildBoard(board, board1, board2, board3, board4, i, j);
             }
         }
+        balls=board.getBalls();
         return board;
     }
 

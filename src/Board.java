@@ -20,32 +20,39 @@ public class Board {
         }
     }
 
-    public Boolean FindFirstIterationForCheck(Color color) {
+    public Boolean FindFirstIterationForCheck(Color color, Ball[][] balls) {
         Boolean result = false;
-        //for (var i = 0; i < matrix.getColumns(); i++) {
-            //for (var j = 0; j < matrix.getRows()-1; j++) {
-                //if (Balls[i][j] != null && Balls[i][j].getColor() == color)
-                    //result = CheckForWin(i, j, 1, color);
-            //}
-        //}
-        return false;
+        int countDirs = 0;
+        for (var i = 0; i < matrix.getColumns(); i++) {
+            for (var j = 0; j < matrix.getRows(); j++) {
+                if (balls[i][j].getColor() == color) {
+                    countDirs++;
+                    result = CheckForWin(balls, i, j, 1, color);
+                }
+            }
+        }
+        if(countDirs==36 && result==false) {
+            End end = new End(null);
+            end.DrawDrawn();
+        }
+        return result;
     }
 
-    public Boolean CheckForWin(int y, int x, int count, Color color) {
+    public Boolean CheckForWin(Ball[][] balls, int y, int x, int count, Color color) {
 
-        if (Balls[y][x + 1] != null && Balls[y][x + 1].getColor() == color) {
-            CheckForWin(y, x + 1, count + 1, color);
+        if (Balls[y][x + 1].getColor() == color) {
+            CheckForWin(balls, y, x + 1, count + 1, color);
         }
-        if (Balls[y][x - 1] != null && Balls[y][x + 1].getColor() == color) {
-            CheckForWin(y, x - 1, count + 1, color);
+        if (Balls[y][x + 1].getColor() == color) {
+            CheckForWin(balls, y, x - 1, count + 1, color);
         }
-        if (Balls[y + 1][x] != null && Balls[y][x + 1].getColor() == color) {
-            CheckForWin(y + 1, x, count + 1, color);
+        if (Balls[y][x + 1].getColor() == color) {
+            CheckForWin(balls, y + 1, x, count + 1, color);
         }
-        if (Balls[y - 1][x] != null && Balls[y][x + 1].getColor() == color) {
-            CheckForWin(y - 1, x, count + 1, color);
+        if (Balls[y][x + 1].getColor() == color) {
+            CheckForWin(balls, y - 1, x, count + 1, color);
         }
-        return count >= 6;
+        return count >= 5;
     }
 
 }
